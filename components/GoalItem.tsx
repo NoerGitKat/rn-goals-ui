@@ -1,5 +1,10 @@
 import React from "react";
-import { Text, StyleSheet } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  GestureResponderEvent,
+} from "react-native";
 import { TGoal } from "../types";
 
 interface IGoalItemProps {
@@ -12,10 +17,15 @@ interface IGoalItemProps {
       updateProps: (select: "leading" | "trailing", newProps: any) => void;
     };
   };
+  onDelete: (event: GestureResponderEvent) => void;
 }
 
-const GoalItem: React.FC<IGoalItemProps> = ({ goalItem }) => {
-  return <Text style={styles.listItem}>{goalItem.item.value}</Text>;
+const GoalItem: React.FC<IGoalItemProps> = ({ goalItem, onDelete }) => {
+  return (
+    <TouchableOpacity onPress={onDelete}>
+      <Text style={styles.listItem}>{goalItem.item.value}</Text>
+    </TouchableOpacity>
+  );
 };
 
 const styles = StyleSheet.create({

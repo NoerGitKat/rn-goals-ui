@@ -1,9 +1,10 @@
 import React from "react";
 import { View, TextInput, Button, StyleSheet } from "react-native";
 import useGoals from "../hooks/useGoals";
+import { TGoal } from "../types";
 
 interface IGoalFormProps {
-  addGoal: () => void;
+  addGoal: (newGoal: TGoal) => void;
 }
 
 const GoalForm: React.FC<IGoalFormProps> = ({ addGoal }) => {
