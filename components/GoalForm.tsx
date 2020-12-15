@@ -1,13 +1,14 @@
 import React from "react";
-import { View, TextInput, Button, StyleSheet } from "react-native";
+import { View, TextInput, Button, StyleSheet, Modal } from "react-native";
 import useGoals from "../hooks/useGoals";
 import { TGoal } from "../types";
 
 interface IGoalFormProps {
   addGoal: (newGoal: TGoal) => void;
+  modalOpened: boolean;
 }
 
-const GoalForm: React.FC<IGoalFormProps> = ({ addGoal }) => {
+const GoalForm: React.FC<IGoalFormProps> = ({ addGoal, modalOpened }) => {
   const { enteredGoal, setEnteredGoal } = useGoals();
 
   const handleInput = (text: string): void => {
@@ -15,15 +16,23 @@ const GoalForm: React.FC<IGoalFormProps> = ({ addGoal }) => {
   };
 
   return (
-    <View style={styles.form}>
-      <TextInput
-        placeholder={"Add Goal"}
-        style={styles.input}
-        value={enteredGoal.value}
-        onChangeText={handleInput}
-      />
-      <Button title="ADD" onPress={addGoal.bind(this, enteredGoal)} />
-    </View>
+    <Modal visible={modalOpened} animationType="slide">
+      <View style={styles.form}>
+        <TextInput
+          placeholder={"Add Goal"}
+          style={styles.input}
+          value={enteredGoal.value}
+          onChangeText={handleInput}
+        />
+        <Button
+          title="ADD"
+          onPress={() => {
+            addGoal.bind(this, enteredGoal)();
+            setEnteredGoal({ id: "", value: "" });
+          }}
+        />
+      </View>
+    </Modal>
   );
 };
 
@@ -40,6 +49,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",
+    backgroundColor: "blue",
   },
 });
 

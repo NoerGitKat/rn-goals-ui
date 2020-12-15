@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import {
+  Button,
   FlatList,
   GestureResponderEvent,
   StyleSheet,
@@ -12,6 +13,7 @@ import { TGoal } from "./types";
 
 export default function App() {
   const { goals, setGoals } = useGoals();
+  const [modalOpened, setModalOpened] = useState(false);
 
   const addGoal = (newGoal: TGoal): void => {
     const newGoals = [...goals, newGoal];
@@ -19,14 +21,15 @@ export default function App() {
     setGoals(newGoals);
   };
 
-  const deleteGoal = (event: GestureResponderEvent): void => {
-    // const filteredGoals = goals.filter((goal) => goal.id !== );
-    // setGoals(filteredGoals);
+  const deleteGoal = (goalId: string): void => {
+    const filteredGoals = goals.filter((goal) => goal.id !== goalId);
+    setGoals(filteredGoals);
   };
 
   return (
     <View style={styles.container}>
-      <GoalForm addGoal={addGoal} />
+      <Button title="Add new goal" onPress={() => setModalOpened(true)} />
+      <GoalForm addGoal={addGoal} modalOpened={modalOpened} />
       {goals && (
         <FlatList
           keyExtractor={(item) => item.id}
@@ -41,5 +44,9 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 50 },
+  container: {
+    padding: 50,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });

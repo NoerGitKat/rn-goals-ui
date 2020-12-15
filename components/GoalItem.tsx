@@ -17,12 +17,12 @@ interface IGoalItemProps {
       updateProps: (select: "leading" | "trailing", newProps: any) => void;
     };
   };
-  onDelete: (event: GestureResponderEvent) => void;
+  onDelete: (goalId: string) => void;
 }
 
 const GoalItem: React.FC<IGoalItemProps> = ({ goalItem, onDelete }) => {
   return (
-    <TouchableOpacity onPress={onDelete}>
+    <TouchableOpacity onPress={() => onDelete(goalItem.item.id)}>
       <Text style={styles.listItem}>{goalItem.item.value}</Text>
     </TouchableOpacity>
   );
